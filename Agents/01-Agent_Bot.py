@@ -1,3 +1,16 @@
+"""
+简单机器人（Simple Bot）
+
+目标：
+
+1. 定义包含 HumanMessage 列表的状态结构
+2. 使用 LangChain 的 ChatOpenAI 初始化 GPT-4o 模型
+3. 发送和处理不同类型的消息
+4. 构建并编译 Agent 图
+
+主要目标：学习如何将 LLM 集成到 LangGraph 中
+"""
+
 from typing import TypedDict, List
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
