@@ -4,89 +4,132 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-这是一个 LangGraph 学习项目，包含系统化的教程练习和示例代码。项目通过 Jupyter Notebook 提供交互式学习体验，从基础图形构建逐步进阶到复杂的循环和条件逻辑实现。
+这是一个 LangGraph 学习项目，专注于教授如何使用 LangGraph 框架构建有状态的 AI Agent 和工作流应用。项目包含从基础概念到高级应用的完整学习路径，以及实际的代码示例和练习。
 
-## 常用开发命令
+## 开发环境设置
 
-### 环境管理
+### 必需的环境变量
+项目使用 OpenRouter 作为统一的 LLM API 访问入口。在开始开发前，需要配置以下环境变量：
+
+复制 `.env.example` 为 `.env` 并配置：
 ```bash
-# 激活虚拟环境
-source .venv/bin/activate
-
-# 启动 Jupyter Lab
-source .venv/bin/activate && jupyter lab
-
-# 安装新依赖并更新 requirements.txt
-source .venv/bin/activate && pip install package_name && pip freeze > requirements.txt
-
-# 检查已安装的包版本
-source .venv/bin/activate && pip list
+OPENROUTER_API_KEY=sk-or-xxxxxxxxxxxxxxxxxxxx
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_MODEL=openai/gpt-4o
 ```
 
-### 运行特定 Notebook
+### 常用开发命令
+
 ```bash
-# 在命令行中运行 Notebook（用于测试）
-source .venv/bin/activate && jupyter nbconvert --to notebook --execute Exercises/Exercise_Graph1.ipynb
+# 创建并激活虚拟环境（项目已有 .venv）
+python -m venv .venv
+source .venv/bin/activate  # macOS/Linux
+# .venv\Scripts\activate   # Windows
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 运行 Python 脚本
+python Agents/01-Agent_Bot.py
+python Agents/02-Memory_Agent.py
+
+# 启动 Jupyter 环境运行 notebook
+jupyter notebook
+# 或
+jupyter lab
+
+# 运行具体的练习
+python Foundations/01-Python前置/练习/typing_exercises.py
 ```
 
-## 项目结构与学习路径
+## 项目架构
 
-### 核心目录
-- `Exercises/`: LangGraph 练习题（Exercise_Graph1.ipynb ~ Exercise_Graph5.ipynb）
-- `Graphs/`: 示例实现（01-Hello_Word.ipynb ~ 05-Looping.ipynb）
-- `LangGraph学习笔记.md`: 详细的理论参考文档
-- `data/`, `models/`: 数据和模型文件存储（目前为空）
+### 核心目录结构
 
-### 递进式学习体系
-1. **Graph I (Hello World)**: 单节点图，基础状态管理
-2. **Graph II (Multiple Inputs)**: 多输入处理，状态累积
-3. **Graph III (Sequential)**: 序列化节点链，数据流传递
-4. **Graph IV (Conditional)**: 条件分支，决策逻辑
-5. **Graph V (Looping)**: 循环结构，复杂游戏逻辑
+- **`Foundations/`**: 系统性学习资料，分为9个模块
+  - `01-Python前置`: 类型系统、异步编程等 Python 基础
+  - `02-图论与状态机`: 图的基本概念和状态机原理
+  - `03-LangGraph基础`: 状态、节点、图的核心概念
+  - `04-进阶特性`: 条件路由、循环、记忆等高级功能
+  - `05-工具与集成`: 工具调用、LLM 集成、RAG 系统
+  - `06-开发实践`: 调试、错误处理、性能优化
+  - `07-部署与运维`: Docker、Kubernetes 部署
+  - `08-项目案例`: 实际应用示例
+  - `09-速查手册`: 快速参考文档
 
-## LangGraph 架构模式
+- **`Agents/`**: Agent 实现示例
+  - `01-Agent_Bot.py`: 简单的 LLM 集成示例
+  - `02-Memory_Agent.py`: 带记忆功能的对话 Agent
 
-### 状态管理模式
+- **`Graphs/`**: 不同类型的图实现
+  - `01-Hello_Word.ipynb`: 基础图结构
+  - `02-Multiple_Inputs.ipynb`: 多输入处理
+  - `03-Sequential_Agent.ipynb`: 顺序执行图
+  - `04-Conditional_Agent.ipynb`: 条件分支图
+  - `05-Looping.ipynb`: 循环控制图
+
+- **`Exercises/`**: 练习题和解答
+  - 对应不同难度级别的 Graph 练习
+
+## 核心开发模式
+
+### 1. 状态定义模式
+所有 LangGraph 应用都使用 TypedDict 定义状态结构：
 ```python
+from typing import TypedDict, List
+from langchain_core.messages import HumanMessage
+
 class AgentState(TypedDict):
-    # 使用 TypedDict 确保类型安全
-    field_name: str
-    numeric_field: int
-    list_field: List[Any]
+    messages: List[HumanMessage]  # 消息列表
+    # 其他状态字段...
 ```
 
-### 图构建模式
+### 2. 节点函数模式
+节点函数接收状态并返回更新的状态：
 ```python
-# 标准图构建流程
-graph = StateGraph(AgentState)
-graph.add_node("node_name", node_function)
-graph.set_entry_point("start_node")  # 或使用 START
-graph.set_finish_point("end_node")   # 或使用 END
-app = graph.compile()
+def node_function(state: AgentState) -> AgentState:
+    # 处理逻辑
+    return {"messages": updated_messages}
 ```
 
-### 节点函数模式
-- 必须接收 `state: AgentState` 参数
-- 必须返回 `AgentState` 对象
-- 通过修改状态字段实现数据传递
-- 支持状态字段的覆盖或累积更新
-
-### 条件逻辑模式
+### 3. 图构建模式
+使用 StateGraph 构建图结构：
 ```python
-# 条件边的实现
-graph.add_conditional_edges(
-    "source_node",
-    condition_function,  # 返回字符串键
-    {
-        "condition_result": "target_node",
-        "other_result": END
-    }
+from langgraph.graph import StateGraph, START, END
+
+workflow = StateGraph(AgentState)
+workflow.add_node("node_name", node_function)
+workflow.add_edge(START, "node_name")
+workflow.add_edge("node_name", END)
+app = workflow.compile()
+```
+
+### 4. LLM 集成模式
+使用 OpenRouter 统一访问不同 LLM：
+```python
+from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+llm = ChatOpenAI(
+    model=os.getenv("OPENROUTER_MODEL"),
+    base_url=os.getenv("OPENROUTER_BASE_URL"),
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 ```
 
-## 核心依赖
+## 学习路径建议
 
-- `langgraph`: 图形工作流框架
-- `langchain`, `langchain_openai`: LLM 集成（为 Agent 系列准备）
-- `chromadb`, `langchain_chroma`: 向量数据库（RAG 功能）
-- `typing`: 类型注解支持
+1. **基础路径**: 先完成 `Foundations/01-Python前置` 的内容
+2. **图论理解**: 学习 `Foundations/02-图论与状态机`
+3. **实践开始**: 运行 `Graphs/` 目录下的 notebook
+4. **Agent 开发**: 学习 `Agents/` 中的实现
+5. **项目实战**: 参考 `Foundations/08-项目案例` 构建应用
+
+## 重要约定
+
+- 所有代码注释和文档使用中文
+- 状态更新使用字典合并而非覆盖
+- 环境变量通过 `.env` 文件管理，不提交到版本控制
+- 使用 OpenRouter 而非直接调用 OpenAI API，支持多种 LLM 模型
