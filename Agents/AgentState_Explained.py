@@ -230,9 +230,9 @@ print("6. LangGraph 中的实际应用")
 print("=" * 50)
 
 # 设置 LLM
-api_key = os.getenv("OPENROUTER_API_KEY")
-base_url = os.getenv("OPENROUTER_BASE_URL")
-model = os.getenv("OPENROUTER_MODEL")
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL")
+model = os.getenv("OPENAI_MODEL")
 
 if api_key and base_url and model:
     llm = ChatOpenAI(model=model, base_url=base_url, api_key=api_key)

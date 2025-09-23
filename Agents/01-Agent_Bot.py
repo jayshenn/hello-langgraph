@@ -28,11 +28,11 @@ import os  # 操作系统接口，用于读取环境变量
 # === 加载环境配置 ===
 load_dotenv()  # 从 .env 文件中加载环境变量（API 密钥等敏感信息）
 
-# === 读取 OpenRouter 配置 ===
-# OpenRouter 是一个提供统一 API 访问多种 LLM 的服务
-api_key = os.getenv("OPENROUTER_API_KEY")    # API 密钥，用于身份认证
-base_url = os.getenv("OPENROUTER_BASE_URL")  # API 基础 URL，指向 OpenRouter 服务
-model = os.getenv("OPENROUTER_MODEL")        # 指定使用的具体模型（如 GPT-4, Claude 等）
+# === 读取 OPENAI 配置 ===
+# OPENAI 是一个提供统一 API 访问多种 LLM 的服务
+api_key = os.getenv("OPENAI_API_KEY")    # API 密钥，用于身份认证
+base_url = os.getenv("OPENAI_BASE_URL")  # API 基础 URL，指向 OPENAI 服务
+model = os.getenv("OPENAI_MODEL")        # 指定使用的具体模型（如 GPT-4, Claude 等）
 
 # === 初始化 LLM 实例 ===
 # 创建一个可以调用大语言模型的对象

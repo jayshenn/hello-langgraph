@@ -22,7 +22,7 @@
 
 - Python 3.8+
 - 基础的 Python 编程知识
-- OpenRouter API 密钥（用于访问 LLM）
+- OPENAI API 密钥（用于访问 LLM）
 
 ### 环境设置
 
@@ -47,7 +47,7 @@
 4. **配置环境变量**
    ```bash
    cp .env.example .env
-   # 编辑 .env 文件，添加你的 OpenRouter API 密钥
+   # 编辑 .env 文件，添加你的 OPENAI API 密钥
    ```
 
 ### 第一个示例
@@ -141,15 +141,15 @@ hello-langgraph/
 
 ## 🔧 配置说明
 
-### OpenRouter API 配置
+### OPENAI API 配置
 
-项目使用 OpenRouter 作为统一的 LLM API 入口，支持多种模型：
+项目使用 OPENAI 作为统一的 LLM API 入口，支持多种模型：
 
 ```bash
 # .env 文件配置
-OPENROUTER_API_KEY=sk-or-xxxxxxxxxxxxxxxxxxxx
-OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
-OPENROUTER_MODEL=openai/gpt-4o
+OPENAI_API_KEY=sk-or-xxxxxxxxxxxxxxxxxxxx
+OPENAI_BASE_URL=https://OPENAI.ai/api/v1
+OPENAI_MODEL=openai/gpt-4o
 ```
 
 支持的模型包括：
@@ -243,7 +243,7 @@ app = workflow.compile()
 
 - [LangGraph](https://github.com/langchain-ai/langgraph) - 强大的状态图框架
 - [LangChain](https://github.com/langchain-ai/langchain) - AI 应用开发生态
-- [OpenRouter](https://openrouter.ai/) - 统一 LLM API 服务
+- [OPENAI](https://OPENAI.ai/) - 统一 LLM API 服务
 
 ---
 

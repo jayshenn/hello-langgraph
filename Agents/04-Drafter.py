@@ -27,11 +27,11 @@ import os
 # 加载 .env 文件中的环境变量（如 API 密钥）
 load_dotenv()
 
-# 获取 OpenRouter API 配置
-# OpenRouter 是一个统一的 API 网关，可以访问多种 LLM 模型
-api_key = os.getenv("OPENROUTER_API_KEY")
-base_url = os.getenv("OPENROUTER_BASE_URL")
-model = os.getenv("OPENROUTER_MODEL")
+# 获取 OPENAI API 配置
+# OPENAI 是一个统一的 API 网关，可以访问多种 LLM 模型
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL")
+model = os.getenv("OPENAI_MODEL")
 
 # 初始化语言模型
 llm = ChatOpenAI(model=model, base_url=base_url, api_key=api_key)

@@ -9,13 +9,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 开发环境设置
 
 ### 必需的环境变量
-项目使用 OpenRouter 作为统一的 LLM API 访问入口。在开始开发前，需要配置以下环境变量：
+项目使用 OPENAI 作为统一的 LLM API 访问入口。在开始开发前，需要配置以下环境变量：
 
 复制 `.env.example` 为 `.env` 并配置：
 ```bash
-OPENROUTER_API_KEY=sk-or-xxxxxxxxxxxxxxxxxxxx
-OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
-OPENROUTER_MODEL=openai/gpt-4o
+OPENAI_API_KEY=sk-or-xxxxxxxxxxxxxxxxxxxx
+OPENAI_BASE_URL=https://OPENAI.ai/api/v1
+OPENAI_MODEL=openai/gpt-4o
 ```
 
 ### 常用开发命令
@@ -105,7 +105,7 @@ app = workflow.compile()
 ```
 
 ### 4. LLM 集成模式
-使用 OpenRouter 统一访问不同 LLM：
+使用 OPENAI 统一访问不同 LLM：
 ```python
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
@@ -113,9 +113,9 @@ import os
 
 load_dotenv()
 llm = ChatOpenAI(
-    model=os.getenv("OPENROUTER_MODEL"),
-    base_url=os.getenv("OPENROUTER_BASE_URL"),
-    api_key=os.getenv("OPENROUTER_API_KEY")
+    model=os.getenv("OPENAI_MODEL"),
+    base_url=os.getenv("OPENAI_BASE_URL"),
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 ```
 
@@ -132,4 +132,4 @@ llm = ChatOpenAI(
 - 所有代码注释和文档使用中文
 - 状态更新使用字典合并而非覆盖
 - 环境变量通过 `.env` 文件管理，不提交到版本控制
-- 使用 OpenRouter 而非直接调用 OpenAI API，支持多种 LLM 模型
+- 使用 OPENAI 而非直接调用 OpenAI API，支持多种 LLM 模型

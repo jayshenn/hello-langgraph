@@ -41,10 +41,10 @@ from langgraph.graph import StateGraph, START, END  # LangGraph 状态图构建�
 # === 加载环境配置 ===
 load_dotenv()  # 从 .env 文件加载 API 密钥等敏感信息
 
-# === 读取 OpenRouter 配置 ===
-api_key = os.getenv("OPENROUTER_API_KEY")
-base_url = os.getenv("OPENROUTER_BASE_URL")
-model = os.getenv("OPENROUTER_MODEL")
+# === 读取 OPENAI 配置 ===
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL")
+model = os.getenv("OPENAI_MODEL")
 
 # === 初始化 LLM 实例 ===
 llm = ChatOpenAI(model=model, base_url=base_url, api_key=api_key)

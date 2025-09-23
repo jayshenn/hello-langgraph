@@ -230,9 +230,9 @@ tools = [
 print(f"总共创建了 {len(tools)} 个工具")
 
 # 如果配置了 API，演示工具绑定
-api_key = os.getenv("OPENROUTER_API_KEY")
-base_url = os.getenv("OPENROUTER_BASE_URL")
-model = os.getenv("OPENROUTER_MODEL")
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL")
+model = os.getenv("OPENAI_MODEL")
 
 if api_key and base_url and model:
     print("\n配置了 API，演示工具绑定过程：")
